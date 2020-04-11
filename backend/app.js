@@ -1,5 +1,17 @@
 const express = require('express');
 const bodyParser=require('body-parser');
+const mongoose=require('mongoose');
+
+const secret=require('./secret/secret');
+
+mongoose.connect(secret
+,{useUnifiedTopology: true , useNewUrlParser: true})
+.then(()=>{
+    console.log('DB Successfully connected');
+})
+.catch(()=>{
+    console.log('Error Occurred while connecting to DB!!');
+})
 
 const app=express();
 
@@ -20,12 +32,13 @@ app.use((req,res,next)=>{
     );
     next();
 });
-
+// mininetwork_12
 app.post("/api/posts",(req,res,next)=>{
     const post=new Post({
         title:req.body.title,
         content:req.body.content
     });
+    post.save();
     console.log(post);
     res.status(201).json({
         message:"The Post is Successfully added"
@@ -33,28 +46,12 @@ app.post("/api/posts",(req,res,next)=>{
 });
 
 app.use('/api/posts',(req,res,next)=>{
-    const posts=[
-        {
-            id:"123",
-            title:"First post",
-            content:"This is from server1"
-        },
-        {
-            id:"1234",
-            title:"second post",
-            content:"This is from server2"
-        },
-        {
-            id:"12345",
-            title:"third post",
-            content:"This is from server3"
-        }
-        
-    ];
+Post.find().then(documents =>{
     res.status(200).json({
         message:"posts fetched successfully",
-        posts:posts
+        posts:documents
     });
+  });
 });
 
 module.exports = app; 
