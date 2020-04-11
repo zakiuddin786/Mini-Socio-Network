@@ -1,1 +1,5 @@
-<router-outlet></router-outlet>
+<app-header></app-header>
+<main>
+    <app-create-post (postCreated)="onPostAdded($event)"></app-create-post>
+    <app-post-list [posts]="Savedposts"></app-post-list>
+</main>
