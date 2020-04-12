@@ -25,7 +25,9 @@ export class CreatePostComponent implements OnInit{
             if(paramMap.has('postId')){
                 this.mode="edit";
                 this.postId=paramMap.get('postId');
-                this.post=this.postService.getPost(this.postId);
+                this.postService.getPost(this.postId).subscribe(postData =>{
+                this.post ={id:postData._id,title:postData.title,content:postData.content};
+                });
             }
             else{
                 this.mode="create";
@@ -40,16 +42,18 @@ export class CreatePostComponent implements OnInit{
         }
 
         if(this.mode==='create'){
+            console.log("on create page!");
             this.postService.addPosts(form.value.title,form.value.content);
         }
         else{
+            console.log("on Update page!");
             this.postService.updatePost(
                 this.postId,
                 form.value.title,
                 form.value.content
             );
         }
-
+        // this.postService.addPosts(form.value.title,form.value.content);
             form.resetForm();
         }
 }

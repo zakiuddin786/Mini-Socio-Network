@@ -4,9 +4,9 @@
             <input 
             matInput type="text"
             name="title"
-             [ngModel]="post.title"
+             [ngModel]="post?.title"
              required
-             minlength="4"
+             minlength="3"
              placeholder="Post Title"
              #title=ngModel>
              <mat-error *ngIf="title.invalid">Please Enter the Title of Post with Min Length of 4!</mat-error>
@@ -16,7 +16,7 @@
          matInput
           rows="8" 
           name="content"
-         [ngModel]="post.content" 
+         [ngModel]="post?.content" 
          required
          placeholder="Content "
          #content="ngModel">
