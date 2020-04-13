@@ -4,8 +4,7 @@ import {ActivatedRoute, ParamMap  } from '@angular/router';
 
 import { PostsService } from '../posts.service';
 import { Post } from '../post-model';
-import { validateHorizontalPosition } from '@angular/cdk/overlay';
-
+import { mimeType } from './mime-type.validator';
 @Component({
     selector:'app-create-post',
     templateUrl:"./create-post.component.html",
@@ -24,9 +23,15 @@ export class CreatePostComponent implements OnInit{
     
     ngOnInit(){
         this.form=new FormGroup({
-            title:new FormControl(null,{validators:[Validators.required,Validators.minLength(3)]}),
-            content:new FormControl(null,{validators:[Validators.required]}),
-            image:new FormControl(null,{validators:[Validators.required]})
+            title:new FormControl(null,{
+                 validators:[Validators.required,Validators.minLength(3)]
+                }),
+            content:new FormControl(null,{
+                validators:[Validators.required]}),
+            image:new FormControl(null,{
+                validators:[Validators.required],
+                asyncValidators:[mimeType]
+            })
         });
     this.route.paramMap.subscribe((paramMap:ParamMap)=>{
         if(paramMap.has('postId')){
@@ -34,22 +39,19 @@ export class CreatePostComponent implements OnInit{
             this.mode="edit";
             this.postId=paramMap.get('postId');
             this.isLoading=true;
-            console.log(this.isLoading);
             this.postService.getPost(this.postId).subscribe(postData =>{
                 this.isLoading=false;
-            console.log(this.isLoading+"after vvd loaad");
-
                 this.post ={
                 id:postData._id,
                 title:postData.title,
-                content:postData.content};
+                content:postData.content,
+                imagePath:null
+            };
                 this.form.setValue({
-                    title:this.post.title,
-                    content:this.post.content
+                   'title':this.post.title,
+                    'content':this.post.content
                 });
             });
-            console.log(this.isLoading+"after loaad");
-
             // this.post=this.postService.getPost(this.postId);
             // console.log(this.post.content);
         }
@@ -68,22 +70,28 @@ export class CreatePostComponent implements OnInit{
         const reader=new FileReader();
         reader.onload=()=>{
             this.imagePreview=reader.result;
-            // console.log(this.imagePreview+"imgae");
         };
         reader.readAsDataURL(file);
-        // console.log(this.imagePreview);
-        // console.log(file);
-        // console.log(this.form);
+        console.log(this.form.value.title);
+        console.log(this.form.value.content);
+
+        console.log(this.form);
     }
 
     onSavePost(){
         if(this.form.invalid){
+            console.log(this.form);
+            console.log('invalid post');
         return;
         }
         this.isLoading=true;
         if(this.mode==='create'){
             console.log("on create page!");
-            this.postService.addPosts(this.form.value.title,this.form.value.content);
+            this.postService.addPosts(
+                this.form.value.title,
+                this.form.value.content,
+                this.form.value.image
+                );
         }
         else{
             console.log("on Update page!");
