@@ -19,6 +19,16 @@ router.post("",(req,res,next)=>{
     });
 });
 
+router.get("",(req,res,next)=>{
+    // console.log("I'm in this get!");
+    Post.find().then(documents =>{
+        res.status(200).json({
+            message:"Posts fetched successfully!!",
+            posts:documents
+        });
+    });
+});
+
 router.delete("/:id",(req,res,next)=>{
     Post.deleteOne({_id:req.params.id}).then((result)=>{
         console.log("deleted the post!");
@@ -33,6 +43,7 @@ router.delete("/:id",(req,res,next)=>{
 });
 
 router.get("/:id",(req,res,next)=>{
+    console.log("in the get func!!");
     Post.findById(req.params.id).then(post=>{
         console.log("fetching from DB!");
         if(post){
@@ -48,14 +59,14 @@ router.get("/:id",(req,res,next)=>{
 })
 
 router.put("/:id",(req,res,next)=>{
-    console.log("i'm in the put");
+    // console.log("i'm in the put");
     const post =new Post({
         _id:req.body.id,
         title:req.body.title,
         content:req.body.content
     })
     Post.updateOne({_id:req.params.id}, post).then(result => {
-        console.log(result);
+        // console.log(result);
         res.status(200).json({
             message:"Updating Successfull..."
         });
