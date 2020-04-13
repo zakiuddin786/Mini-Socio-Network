@@ -4,6 +4,7 @@ import {ActivatedRoute, ParamMap  } from '@angular/router';
 
 import { PostsService } from '../posts.service';
 import { Post } from '../post-model';
+import { validateHorizontalPosition } from '@angular/cdk/overlay';
 
 @Component({
     selector:'app-create-post',
@@ -17,13 +18,15 @@ export class CreatePostComponent implements OnInit{
     private mode = "create";
     private postId:string;
     form:FormGroup;
+    imagePreview:string;
 
     constructor(public postService:PostsService, public route : ActivatedRoute){}
     
     ngOnInit(){
         this.form=new FormGroup({
             title:new FormControl(null,{validators:[Validators.required,Validators.minLength(3)]}),
-            content:new FormControl(null,{validators:[Validators.required]})
+            content:new FormControl(null,{validators:[Validators.required]}),
+            image:new FormControl(null,{validators:[Validators.required]})
         });
     this.route.paramMap.subscribe((paramMap:ParamMap)=>{
         if(paramMap.has('postId')){
@@ -55,6 +58,22 @@ export class CreatePostComponent implements OnInit{
             this.postId=null;
         }
     });
+    }
+    
+    onImagePicked(event:Event)
+    {
+        const file =(event.target as HTMLInputElement).files[0];
+        this.form.patchValue({image:file});
+        this.form.get('image').updateValueAndValidity();
+        const reader=new FileReader();
+        reader.onload=()=>{
+            this.imagePreview=reader.result;
+            // console.log(this.imagePreview+"imgae");
+        };
+        reader.readAsDataURL(file);
+        // console.log(this.imagePreview);
+        // console.log(file);
+        // console.log(this.form);
     }
 
     onSavePost(){
