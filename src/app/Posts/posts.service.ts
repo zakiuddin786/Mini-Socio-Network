@@ -78,7 +78,6 @@ export class PostsService{
     }
 
     updatePost(id:string,title:string,content:string,image:File | string){
-        
         let postData: Post | FormData;
         if(typeof(image)==='object'){
             postData=new FormData();
@@ -94,9 +93,7 @@ export class PostsService{
                 content:content,
                 imagePath:image
             };
-        }
-
-        
+        }        
         this.http.put("http://localhost:3000/api/posts/"+id,postData)
         .subscribe(response => {
             // console.log(response)
@@ -107,7 +104,7 @@ export class PostsService{
                 id:id, 
                 title:title,
                 content:content,
-                imagePath:image
+                imagePath:""
             };
             updatedPosts[oldPostIndex]=post;
             this.posts=updatedPosts;
