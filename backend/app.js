@@ -7,9 +7,9 @@ const path= require('path');
 const postRoutes=require('./routes/posts');
 const userRoutes = require('./routes/user');
 
-const secret=require('./secret/secret');
+const uri=require('./config/db');
 
-mongoose.connect(secret
+mongoose.connect(uri
 ,{useUnifiedTopology: true , useNewUrlParser: true})
 .then(()=>{
     console.log('DB Successfully connected');
@@ -31,7 +31,7 @@ app.use((req,res,next)=>{
     res.setHeader("Access-Control-Allow-Origin","*");
     res.setHeader(
         "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
+        "Origin, X-Requested-With, Content-Type, Accept, Authorization"
     );
     res.setHeader(
         "Access-Control-Allow-Methods",

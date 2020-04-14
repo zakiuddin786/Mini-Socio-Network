@@ -12,6 +12,7 @@
 /node_modules
 
 /backend/secret
+/backend/config
 
 # profiling files
 chrome-profiler-events*.json
