@@ -27,7 +27,7 @@ router.post("/signup",(req,res,next)=>{
             });
         });
     }).catch((err =>{
-        console.log(err);
+        // console.log(err);
     }))
 });
 
@@ -41,7 +41,7 @@ router.post("/login",(req,res,next)=>{
             });
         }
         fetchedUser=user;
-        console.log(user);
+        // console.log(user);
         return bcrypt.compare(req.body.password,user.password);
     })
     .then(result =>{
@@ -54,14 +54,15 @@ router.post("/login",(req,res,next)=>{
         const token = jwt.sign({email:fetchedUser.email,userId:fetchedUser._id},
              secret,{expiresIn:"1h"}
         );
-        console.log(token);
+        // console.log(token);
         res.status(200).json({
             token:token,
-            expiresIn:3600 
+            expiresIn:3600 ,
+            userId:fetchedUser._id
         });
 
     }).catch((err)=>{
-        console.log(err);
+        // console.log(err);
         return res.status(401).json({
             message:"Auth Failed!"
         });

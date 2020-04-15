@@ -10,8 +10,13 @@
         </div>
         <p>{{ post.content }}</p>
         <mat-action-row>
-            <a mat-button color="primary" [routerLink]="['/edit',post.id]" *ngIf="userIsAuthenticated">Edit Post</a>
-            <button mat-button color="warn" (click)="onDelete(post.id)" *ngIf="userIsAuthenticated">Delete Post</button>
+            <a mat-button color="primary" 
+            [routerLink]="['/edit',post.id]" 
+            *ngIf="userIsAuthenticated && userId===post.creator"
+            >Edit Post</a>
+            <button mat-button color="warn" 
+            (click)="onDelete(post.id)" 
+            *ngIf="userIsAuthenticated && userId===post.creator">Delete Post</button>
         </mat-action-row>
     </mat-expansion-panel>
 </mat-accordion>
