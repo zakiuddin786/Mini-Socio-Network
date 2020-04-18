@@ -7,9 +7,7 @@ const path= require('path');
 const postRoutes=require('./routes/posts');
 const userRoutes = require('./routes/user');
 
-const uri=require('./config/db');
-
-mongoose.connect(uri
+mongoose.connect(process.env.MONGO_URI
 ,{useUnifiedTopology: true , useNewUrlParser: true})
 .then(()=>{
     console.log('DB Successfully connected');

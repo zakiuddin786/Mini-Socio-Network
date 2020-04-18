@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 // import {post} from '../../../backend/models/post.js'; 
+import { environment } from '../../environments/environment';
+const BACKEND_URL = environment.apiUrl+"/posts/";
 
 @Injectable({providedIn:'root'})
 export class PostsService{
@@ -19,7 +21,7 @@ export class PostsService{
         const queryParams=`?pagesize=${postPerPage}&page=${currentPage}`;
         this.http
         .get<{message:string,posts:any,maxPosts:number}>(
-            "http://localhost:3000/api/posts" +queryParams
+            BACKEND_URL+queryParams
             )
         .pipe(map((postData)=>{
             return {posts: postData.posts.map(post=>{
@@ -55,7 +57,7 @@ export class PostsService{
              imagePath:string,
              creator:string
          }>
-        ("http://localhost:3000/api/posts/"+id);
+        (BACKEND_URL+id);
     }
 
     getPostUpdateListener(){
@@ -70,7 +72,7 @@ export class PostsService{
         // const post:Post={id:null,title:title,content:content};
         this.http
         .post<{message:string,post: Post}>(
-            "http://localhost:3000/api/posts",postData)
+            BACKEND_URL,postData)
         .subscribe(responseData =>{
             // const post:Post ={
             //     id:responseData.post.id,
@@ -105,7 +107,7 @@ export class PostsService{
                 creator:null
             };
         }        
-        this.http.put("http://localhost:3000/api/posts/"+id,postData)
+        this.http.put(BACKEND_URL+id,postData)
         .subscribe(response => {
             // console.log(response)
             console.log("Updating in progress....");
@@ -125,7 +127,7 @@ export class PostsService{
     }
  
     deletePost(id:string){
-         return this.http.delete("http://localhost:3000/api/posts/"+id)
+         return this.http.delete(BACKEND_URL+id)
         // .subscribe(()=>{
         //     console.log("del eted!!!");
         //     const updatedPosts=this.posts.filter(post=>post.id!==id);

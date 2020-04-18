@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
+import { Subscription } from 'rxjs';
 
 @Component({
     templateUrl:'./login.component.html',
@@ -8,7 +9,15 @@ import { AuthService } from '../auth.service';
 })
 export class LoginComponent{
     isLoading=false;
+    private authStatusSub : Subscription;
 
+    ngOnInit(){
+        this.authStatusSub = this.authService.getAuthStatusListener().subscribe(
+            authStatus =>{
+                this.isLoading=false;
+            }
+        );
+    }
     constructor(public authService:AuthService){}
 
     onLogin(form: NgForm){
@@ -19,5 +28,9 @@ export class LoginComponent{
         this.isLoading=true;
         this.authService.login(form.value.email,form.value.password);
         // console.log(form.value);
+    }
+
+    ngOnDestroy(){
+        this.authStatusSub.unsubscribe();
     }
 }

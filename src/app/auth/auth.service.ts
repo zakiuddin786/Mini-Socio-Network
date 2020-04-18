@@ -6,7 +6,10 @@ import { EmailValidator } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
-@Injectable({ providedIn : "root"})
+
+import { environment } from '../../environments/environment';
+const BACKEND_URL = environment.apiUrl+"/user/";
+@Injectable({ providedIn : "root"}) // postioning this is important it should be included after all the other imports are done
 
 export class AuthService{
 
@@ -22,9 +25,13 @@ export class AuthService{
 
         const authData:AuthData = {email:email, password :password};
 
-        this.http.post("http://localhost:3000/api/user/signup", authData)
+        this.http.post(BACKEND_URL+"signup", authData)
         .subscribe(response =>{
             console.log(response);
+            this.router.navigate(['/']);
+            console.log("i'm stuck here");
+        },error =>{
+            this.authStatusListener.next(false);
         });
     }
 
@@ -46,7 +53,7 @@ export class AuthService{
 
     login(email:string,password:string){
         const authdata:AuthData={email:email,password:password};
-        this.http.post<{token:string,expiresIn:number,userId:string}>("http://localhost:3000/api/user/login",authdata)
+        this.http.post<{token:string,expiresIn:number,userId:string}>(BACKEND_URL+"/login",authdata)
         .subscribe(response=>{
             // console.log(response);
             this.token=response.token;
@@ -54,7 +61,7 @@ export class AuthService{
             if(this.token){
                 const expiresIn = response.expiresIn;
 
-                console.log(expiresIn);
+                // console.log(expiresIn);
 
                 this.setAuthTimer(expiresIn);
 
@@ -64,10 +71,12 @@ export class AuthService{
 
                 const now = new Date();
                 const expirationDate= new Date(now.getTime()+expiresIn*1000);
-                console.log(expirationDate);
+                // console.log(expirationDate);
                 this.saveAuthDat(this.token, expirationDate, this.userId);
                 this.router.navigate(['/']);
             }
+        }, error =>{
+            this.authStatusListener.next(false);
         })
     }
 
@@ -113,7 +122,7 @@ export class AuthService{
     }
  
     private setAuthTimer(duration: number){
-        console.log("timmer set to "+duration);
+        // console.log("timmer set to "+duration);
         this.tokenTimeout=setTimeout(()=>{
             this.logout();
         },duration*1000);

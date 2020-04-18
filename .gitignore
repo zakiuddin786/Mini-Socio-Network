@@ -10,9 +10,9 @@
 
 # dependencies
 /node_modules
+/nodemon.json
 
-/backend/secret
-/backend/config
+/backend
 
 # profiling files
 chrome-profiler-events*.json
