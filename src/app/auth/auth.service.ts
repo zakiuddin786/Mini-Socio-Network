@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { AuthData } from './auth-data.model';
-import { EmailValidator } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
@@ -21,19 +20,21 @@ export class AuthService{
 
     constructor( private http : HttpClient, private router : Router){}
 
-    createUser(email:string,password:string){
+    createUser(email:string,password:string,name:string){
 
-        const authData:AuthData = {email:email, password :password};
+        const authData:AuthData = {email:email, password :password, name:name};
 
         this.http.post(BACKEND_URL+"signup", authData)
         .subscribe(response =>{
             console.log(response);
+            this.login(email,password);
             this.router.navigate(['/']);
             console.log("i'm stuck here");
         },error =>{
             this.authStatusListener.next(false);
         });
     }
+
 
     getToken(){
         return this.token;
@@ -52,7 +53,7 @@ export class AuthService{
     }
 
     login(email:string,password:string){
-        const authdata:AuthData={email:email,password:password};
+        const authdata:AuthData={email:email,password:password,name:""};
         this.http.post<{token:string,expiresIn:number,userId:string}>(BACKEND_URL+"/login",authdata)
         .subscribe(response=>{
             // console.log(response);
@@ -60,9 +61,6 @@ export class AuthService{
 
             if(this.token){
                 const expiresIn = response.expiresIn;
-
-                // console.log(expiresIn);
-
                 this.setAuthTimer(expiresIn);
 
                 this.isAuthenticated=true;

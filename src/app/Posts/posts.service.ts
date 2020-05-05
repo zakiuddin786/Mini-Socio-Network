@@ -30,7 +30,8 @@ export class PostsService{
                     content:post.content,
                     id:post._id,
                     imagePath:post.imagePath,
-                    creator:post.creator
+                    user:post.user,
+                    name:post.name
                 };
                 }),
                 maxPosts:postData.maxPosts
@@ -55,7 +56,8 @@ export class PostsService{
              title:string,
              content:string,
              imagePath:string,
-             creator:string
+             user:string
+             name:string
          }>
         (BACKEND_URL+id);
     }
@@ -64,27 +66,15 @@ export class PostsService{
         return this.postsUpdated.asObservable();
     }
 
-    addPosts(title :string,content:string,image:File){
+    addPost(title :string,content:string,image:File){
         const postData=new FormData();
         postData.append("title",title);
         postData.append("content",content);
         postData.append("image",image,title);
-        // const post:Post={id:null,title:title,content:content};
         this.http
         .post<{message:string,post: Post}>(
             BACKEND_URL,postData)
         .subscribe(responseData =>{
-            // const post:Post ={
-            //     id:responseData.post.id,
-            //     title:title,
-            //     content:content,
-            //     imagePath:responseData.post.imagePath
-            // };
-            // console.log(responseData.message);
-            // // const id=responseData.postId;
-            // // post.id=id;
-            // this.posts.push(post);
-            // this.postsUpdated.next([...this.posts]);
             this.router.navigate(["/"]);
         })
     }
@@ -104,35 +94,18 @@ export class PostsService{
                 title:title,
                 content:content,
                 imagePath:image,
-                creator:null
+                user:null,
+                name:null
             };
         }        
         this.http.put(BACKEND_URL+id,postData)
         .subscribe(response => {
-            // console.log(response)
             console.log("Updating in progress....");
-            // const updatedPosts=[...this.posts];
-            // const oldPostIndex = updatedPosts.findIndex(p=>p.id===id);
-            // const post:Post ={
-            //     id:id, 
-            //     title:title,
-            //     content:content,
-            //     imagePath:""
-            // };
-            // updatedPosts[oldPostIndex]=post;
-            // this.posts=updatedPosts;
-            // this.postsUpdated.next([...this.posts]);
             this.router.navigate(["/"]);
         });
     }
  
     deletePost(id:string){
          return this.http.delete(BACKEND_URL+id)
-        // .subscribe(()=>{
-        //     console.log("del eted!!!");
-        //     const updatedPosts=this.posts.filter(post=>post.id!==id);
-        //     this.posts=updatedPosts;
-        //     this.postsUpdated.next([...this.posts]);
-        // })
     }
 }

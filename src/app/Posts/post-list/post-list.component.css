@@ -19,6 +19,28 @@ mat-paginator{
     width:100%;
 }
 
+.post-view{
+    max-width: 450px ;
+    margin:auto;
+    padding-bottom: 3%;
+    height: auto;
+}
+
+.dot{
+    width: 10px;
+    height: 10px;
+    background: red;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.post-header{
+    flex-direction: row;
+    height: 20px;
+    padding: 16px;
+}
+
 .post-image img{
     width:100%;
     box-shadow:2px 3px 5px rgba(0,0,0,0.5);

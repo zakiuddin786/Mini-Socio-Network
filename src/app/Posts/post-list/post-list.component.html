@@ -1,25 +1,57 @@
-
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<mat-accordion multi="false" *ngIf="posts.length >0 && !isLoading">
-    <mat-expansion-panel *ngFor="let post of posts">
-        <mat-expansion-panel-header>
-            {{ post.title }}
-        </mat-expansion-panel-header>
-        <div class="post-image">
-            <img [src]="post.imagePath" [alt]="post.title">
-        </div>
-        <p>{{ post.content }}</p>
-        <mat-action-row>
-            <a mat-button color="primary" 
-            [routerLink]="['/edit',post.id]" 
-            *ngIf="userIsAuthenticated && userId===post.creator"
-            >Edit Post</a>
-            <button mat-button color="warn" 
-            (click)="onDelete(post.id)" 
-            *ngIf="userIsAuthenticated && userId===post.creator">Delete Post</button>
-        </mat-action-row>
-    </mat-expansion-panel>
-</mat-accordion>
+<div *ngIf="posts.length >0 && !isLoading">
+  <article class="post-view" *ngFor="let post of posts">
+    <header class="post-header">
+      {{ post.name }}
+    </header>
+    <!-- <button class="fa fa-ellipsis-v col-2 mt-3 .text-light fa-lg" ></button> -->
+
+    <section class="post-image">
+      <img [src]="post.imagePath" [alt]="post.title">
+    </section>
+    {{ post.title }}
+    <section>
+    <p>{{ post.content }}</p>
+    </section>
+
+    <a mat-button color="primary" [routerLink]="['/edit',post.id]"
+      *ngIf="userIsAuthenticated && userId===post.user">Edit Post</a>
+    <button mat-button color="warn" (click)="onDelete(post.id)"
+      *ngIf="userIsAuthenticated && userId===post.user">Delete Post</button>
+
+  </article>
+</div>
 <mat-paginator [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="pageSizeOptions"
-     (page)="onPageChanged($event)" *ngIf="posts.length >0"></mat-paginator>
+  (page)="onPageChanged($event)" *ngIf="posts.length >0"></mat-paginator>
 <p class="info-text mat-body-1" *ngIf="posts.length<=0 && !isLoading">No Posts created yet!!</p>
+
+
+
+
+
+
+
+
+<!-- 
+
+<article class="post-main">
+  <header class="post-header">
+    <div class="post-creator-pic" role="button" tabindex="0"><canvas class="CfWVH" height="53" width="53"
+        style="position: absolute; top: -5px; left: -5px; width: 42px; height: 42px;"></canvas><span class="_2dbep "
+        role="link" tabindex="0" style="width: 32px; height: 32px;"><img alt="arty_punk's profile picture"
+          class="_6q-tv"
+          src="https://instagram.fkwi7-1.fna.fbcdn.net/v/t51.2885-19/s150x150/66944342_680261542455000_3843972923643658240_n.jpg?_nc_ht=instagram.fkwi7-1.fna.fbcdn.net&amp;_nc_ohc=sjGsWnpDjs0AX--9F8d&amp;oh=7eb7e6bf8c9b3669314b296658e57c37&amp;oe=5ECB02CD"></span>
+    </div>
+  <div class="MEAGs">
+      <button class="wpO6b " type="button">
+      <div                                                                                                            "
+        style="height: 24px; width: 24px;"><svg aria-label="More options" class="_8-yf5 " fill="#262626" height="16"
+          viewBox="0 0 48 48" width="16">
+          <circle clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle>
+          <circle clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle>
+          <circle clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle>
+        </svg>
+    </div>
+    </button>
+</div>
+</article> -->

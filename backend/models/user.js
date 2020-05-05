@@ -10,7 +10,15 @@ const userSchema = mongoose.Schema({
     password:{
         type:String,
         required:true
-    }
+    },
+    name:{
+        type:String,
+        required:true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+      }
 });
 
 userSchema.plugin(uniqueValidaor);

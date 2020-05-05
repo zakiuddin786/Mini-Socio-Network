@@ -58,7 +58,8 @@ export class CreatePostComponent implements OnInit, OnDestroy{
                 title:postData.title,
                 content:postData.content,
                 imagePath:postData.imagePath,
-                creator:postData.creator
+                user:postData.user,
+                name:postData.name
             };
                 this.form.setValue({
                    'title':this.post.title,
@@ -66,8 +67,6 @@ export class CreatePostComponent implements OnInit, OnDestroy{
                     image:this.post.imagePath
                 });
             });
-            // this.post=this.postService.getPost(this.postId);
-            // console.log(this.post.content);
         }
         else{
             this.mode="create";
@@ -101,7 +100,7 @@ export class CreatePostComponent implements OnInit, OnDestroy{
         this.isLoading=true;
         if(this.mode==='create'){
             console.log("on create page!");
-            this.postService.addPosts(
+            this.postService.addPost(
                 this.form.value.title,
                 this.form.value.content,
                 this.form.value.image
@@ -116,7 +115,6 @@ export class CreatePostComponent implements OnInit, OnDestroy{
                 this.form.value.image
             );
         }
-        // this.postService.addPosts(form.value.title,form.value.content);
             this.form.reset();
         }
 

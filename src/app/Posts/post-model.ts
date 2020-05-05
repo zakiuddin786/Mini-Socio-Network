@@ -3,5 +3,6 @@ export interface Post{
     title:String;
     content:String;
     imagePath:String;
-    creator:string;
+    user:String;
+    name:String;
 }
