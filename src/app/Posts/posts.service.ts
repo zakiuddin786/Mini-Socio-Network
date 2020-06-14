@@ -56,7 +56,7 @@ export class PostsService{
              title:string,
              content:string,
              imagePath:string,
-             user:string
+             user:string,
              name:string
          }>
         (BACKEND_URL+id);
@@ -77,6 +77,10 @@ export class PostsService{
         .subscribe(responseData =>{
             this.router.navigate(["/"]);
         })
+    }
+
+    likePost(id:string){
+        
     }
 
     updatePost(id:string,title:string,content:string,image:File | string){

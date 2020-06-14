@@ -16,6 +16,12 @@
 
     <a mat-button color="primary" [routerLink]="['/edit',post.id]"
       *ngIf="userIsAuthenticated && userId===post.user">Edit Post</a>
+      
+    <a mat-button color="primary" [routerLink]="['/edit',post.id]"
+    *ngIf="userIsAuthenticated && userId===post.user">Like Post</a>
+    <a mat-button color="primary" [routerLink]="['/edit',post.id]"
+      *ngIf="userIsAuthenticated && userId===post.user">Unlike Post</a>
+
     <button mat-button color="warn" (click)="onDelete(post.id)"
       *ngIf="userIsAuthenticated && userId===post.user">Delete Post</button>
 
