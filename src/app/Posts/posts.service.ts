@@ -5,7 +5,6 @@ import { Post } from './post-model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-// import {post} from '../../../backend/models/post.js'; 
 import { environment } from '../../environments/environment';
 const BACKEND_URL = environment.apiUrl+"/posts/";
 
@@ -21,7 +20,7 @@ export class PostsService{
         const queryParams=`?pagesize=${postPerPage}&page=${currentPage}`;
         this.http
         .get<{message:string,posts:any,maxPosts:number}>(
-            BACKEND_URL+queryParams
+            BACKEND_URL+"getAllPosts"+queryParams
             )
         .pipe(map((postData)=>{
             return {posts: postData.posts.map(post=>{
@@ -73,7 +72,7 @@ export class PostsService{
         postData.append("image",image,title);
         this.http
         .post<{message:string,post: Post}>(
-            BACKEND_URL,postData)
+            BACKEND_URL+"createPost",postData)
         .subscribe(responseData =>{
             this.router.navigate(["/"]);
         })
@@ -110,6 +109,6 @@ export class PostsService{
     }
  
     deletePost(id:string){
-         return this.http.delete(BACKEND_URL+id)
+         return this.http.delete(BACKEND_URL+"deletePost/"+id)
     }
 }

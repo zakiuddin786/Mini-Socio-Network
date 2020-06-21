@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs';
     templateUrl:'./login.component.html',
     styleUrls:['./login.component.css']
 })
+
 export class LoginComponent{
     isLoading=false;
     private authStatusSub : Subscription;
