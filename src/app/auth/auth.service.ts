@@ -53,7 +53,7 @@ export class AuthService{
 
     login(email:string,password:string){
         const authdata:AuthData={email:email,password:password,name:""};
-        this.http.post<{token:string}>(BACKEND_URL+"/login",authdata)
+        this.http.post<{token:string,userId:string,avatar:string,name:string,email:string}>(BACKEND_URL+"/login",authdata)
         .subscribe(response=>{
             // console.log(response);
             this.token=response.token;
@@ -64,7 +64,7 @@ export class AuthService{
 
                 this.isAuthenticated=true;
                 this.authStatusListener.next(true);
-               // this.userId=response.userId;
+                this.userId=response.userId;
 
                 const now = new Date();
                 const expirationDate= new Date(now.getTime()+4*60*60*1000);
