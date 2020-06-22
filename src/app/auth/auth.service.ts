@@ -35,7 +35,6 @@ export class AuthService{
         });
     }
 
-
     getToken(){
         return this.token;
     }
