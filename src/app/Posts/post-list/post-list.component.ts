@@ -70,6 +70,37 @@ export class PostListComponent implements OnInit, OnDestroy{
         });
     }
 
+    onLike(postId:string)
+    {
+        this.isLoading=true;
+        this.postService.likePost(postId).subscribe(()=>{
+            this.postService.getPosts(this.postsPerPage,this.currentPage);
+            }, ()=>{
+                this.isLoading=false;
+            });
+        // });
+    }
+
+    onunlike(postId:string)
+    {
+        this.isLoading=true;
+        this.postService.unlikePost(postId).subscribe(()=>{
+        this.postService.getPosts(this.postsPerPage,this.currentPage);
+        }, ()=>{
+            this.isLoading=false;
+        });
+    }
+
+    onComment(postId:string,text:string)
+    {
+        this.isLoading=true;
+        this.postService.comment(postId,text).subscribe(()=>{
+        this.postService.getPosts(this.postsPerPage,this.currentPage);
+        }, ()=>{
+            this.isLoading=false;
+        });
+    }
+
     ngOnDestroy(){
         this.postSub.unsubscribe(); 
         this.authStatusSubs.unsubscribe();

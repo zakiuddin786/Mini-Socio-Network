@@ -6,6 +6,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../environments/environment';
+
+import * as moment from 'moment';
 const BACKEND_URL = environment.apiUrl+"/posts/";
 
 @Injectable({providedIn:'root'})
@@ -24,13 +26,19 @@ export class PostsService{
             )
         .pipe(map((postData)=>{
             return {posts: postData.posts.map(post=>{
+            // console.log(post)
+                
                 return{
                     title:post.title,
                     content:post.content,
                     id:post._id,
                     imagePath:post.imagePath,
-                    user:post.user,
-                    name:post.name
+                    user:post.creator,
+                    name:post.creatorName,
+                    likes:post.likes,
+                    comments:post.comments,
+                    date:moment(post.date).format("MM/DD/YYYY"),
+                    avatar:post.avatar
                 };
                 }),
                 maxPosts:postData.maxPosts
@@ -78,10 +86,6 @@ export class PostsService{
         })
     }
 
-    likePost(id:string){
-        
-    }
-
     updatePost(id:string,title:string,content:string,image:File | string){
         let postData: Post | FormData;
         if(typeof(image)==='object'){
@@ -101,7 +105,7 @@ export class PostsService{
                 name:null
             };
         }        
-        this.http.put(BACKEND_URL+id,postData)
+        this.http.put(BACKEND_URL+"updatePost/"+id,postData)
         .subscribe(response => {
             console.log("Updating in progress....");
             this.router.navigate(["/"]);
@@ -110,5 +114,21 @@ export class PostsService{
  
     deletePost(id:string){
          return this.http.delete(BACKEND_URL+"deletePost/"+id)
+    }
+
+    likePost(id:string){
+        return this.http.post(BACKEND_URL+"like/"+id,id)
+   }
+
+   unlikePost(id:string){
+    return this.http.put(BACKEND_URL+"unlike/"+id,id)
+    }    
+
+    comment(id:string,text:string){
+        const comment ={
+            text:text
+        };
+        // comment.append("text",text);
+    return this.http.post(BACKEND_URL+"deletePost/"+id,comment)
     }
 }
