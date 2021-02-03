@@ -13,6 +13,8 @@ import { ErrorInterceptor } from './error-interceptor';
 import { AngularMaterialModule } from './angular.material.module';
 import { PostModule } from './Posts/posts.module';
 import { AuthModule } from './auth/auth.module';
+import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -28,7 +30,9 @@ import { AuthModule } from './auth/auth.module';
     AngularMaterialModule,
     PostModule,
     AuthModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule,
+    ReactiveFormsModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true,},

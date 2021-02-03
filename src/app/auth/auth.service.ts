@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthData } from './auth-data.model';
 import { Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import jwt_decode from 'jwt-decode';
 
 
 import { environment } from '../../environments/environment';
@@ -43,9 +44,6 @@ export class AuthService{
         return this.isAuthenticated;
     }
 
-    getUserId(){
-        return this.userId;
-    }
 
     getAuthStatusListener(){
         return this.authStatusListener.asObservable();
@@ -93,14 +91,14 @@ export class AuthService{
         if(!authInformation){
             return ;
         }
-        
+
         const now = new Date();
         const tokenValidity= authInformation.expirationDate.getTime() - now.getTime();
-        
+
         if(tokenValidity > 0){
             this.token=authInformation.token;
             this.isAuthenticated = true;
-          //  this.userId=authInformation.userId; 
+          //  this.userId=authInformation.userId;
             this.setAuthTimer(tokenValidity/1000);
             this.authStatusListener.next(true);
         }
@@ -117,7 +115,7 @@ export class AuthService{
     localStorage.removeItem("expiration");
     //localStorage.removeItem("userId");
     }
- 
+
     private setAuthTimer(duration: number){
         // console.log("timmer set to "+duration);
         this.tokenTimeout=setTimeout(()=>{
@@ -139,4 +137,29 @@ export class AuthService{
          //   userId:userId
         }
     }
+
+    getName(){
+      if(this.isAuth()){
+      var decode=jwt_decode(localStorage.getItem('token'));
+      return decode['name'];
+      }
+    }
+
+    getMail(){
+      if(this.isAuth()){
+        var decode=jwt_decode(localStorage.getItem('token'));
+        return decode['email'];
+      }
+    }
+
+    getUserId(){
+      // console.log("getting user id");
+      if(this.isAuth()){
+        var decode=jwt_decode(localStorage.getItem('token'));
+      //  console.log(decode);
+        return decode['userId'];
+      }
+  }
+
+
 }

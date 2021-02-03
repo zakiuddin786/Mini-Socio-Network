@@ -1,76 +1,35 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/css/all.min.css" /> -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js"></script>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<!-- <div *ngIf="posts.length >0 && !isLoading">
-  <article class="post-view" *ngFor="let post of posts">
-    <header class="post-header">
-      {{ post.name }}
-    </header>
 
-    <section class="post-image">
-      <img [src]="post.imagePath" [alt]="post.title">
-    </section>
-    {{ post.title }}
-    <section>
-    <p>{{ post.content }}</p>
-    </section>
+<form  [formGroup]="SearchBarForm" (ngSubmit)="onSubmit()">
 
-    <a mat-button color="primary" [routerLink]="['/edit',post.id]"
-      *ngIf="userIsAuthenticated && userId===post.user">Edit Post</a>
-      
-    <a mat-button color="primary" [routerLink]="['/edit',post.id]"
-    *ngIf="userIsAuthenticated && userId===post.user">Like Post</a>
-    <a mat-button color="primary" [routerLink]="['/edit',post.id]"
-      *ngIf="userIsAuthenticated && userId===post.user"> Unlike Post</a>
+  <div class="row">
 
-    <button mat-button color="warn" (click)="onDelete(post.id)"
-      *ngIf="userIsAuthenticated && userId===post.user">Delete Post</button>
+    <div class="col-sm-10 mt-3">
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-default">
+          <svg aria-hidden="true" class="s-input-icon s-input-icon__search svg-icon iconSearch" width="18" height="18" viewBox="0 0 18 18"><path d="M18 16.5l-5.14-5.18h-.35a7 7 0 10-1.19 1.19v.35L16.5 18l1.5-1.5zM12 7A5 5 0 112 7a5 5 0 0110 0z"></path></svg>
+        </span>
+        </div>
+        <input type="text" (keyup)="descriptionSearched.next($event)" class="form-control"
+        formControlName="searchPost" placeholder="Search Posts.." aria-describedby="inputGroup-sizing-default">
+      </div>
+   </div>
 
-  </article>
-</div>
-<mat-paginator [length]="totalPosts" [pageSize]="postsPerPage" [pageSizeOptions]="pageSizeOptions"
-  (page)="onPageChanged($event)" *ngIf="posts.length >0"></mat-paginator>
-<p class="info-text mat-body-1" *ngIf="posts.length<=0 && !isLoading">No Posts created yet!!</p>
+  </div>
+</form>
 
-
- 
-
-
-
-
-
-
-
-<article class="post-main">
-  <header class="post-header">
-    <div class="post-creator-pic" role="button" tabindex="0"><canvas class="CfWVH" height="53" width="53"
-        style="position: absolute; top: -5px; left: -5px; width: 42px; height: 42px;"></canvas><span class="_2dbep "
-        role="link" tabindex="0" style="width: 32px; height: 32px;"><img alt="arty_punk's profile picture"
-          class="_6q-tv"
-          src="https://instagram.fkwi7-1.fna.fbcdn.net/v/t51.2885-19/s150x150/66944342_680261542455000_3843972923643658240_n.jpg?_nc_ht=instagram.fkwi7-1.fna.fbcdn.net&amp;_nc_ohc=sjGsWnpDjs0AX--9F8d&amp;oh=7eb7e6bf8c9b3669314b296658e57c37&amp;oe=5ECB02CD"></span>
-    </div>
-  <div class="MEAGs">
-      <button class="wpO6b " type="button">
-      <div                                                                                                            "
-        style="height: 24px; width: 24px;"><svg aria-label="More options" class="_8-yf5 " fill="#262626" height="16"
-          viewBox="0 0 48 48" width="16">
-          <circle clip-rule="evenodd" cx="8" cy="24" fill-rule="evenodd" r="4.5"></circle>
-          <circle clip-rule="evenodd" cx="24" cy="24" fill-rule="evenodd" r="4.5"></circle>
-          <circle clip-rule="evenodd" cx="40" cy="24" fill-rule="evenodd" r="4.5"></circle>
-        </svg>
-    </div>
-    </button>
-</div>
-</article> -->
 <div class="container ">
-<div *ngFor="let post of posts" class="shadow-lg p-3 mb-5 bg-white rounded">
+<div *ngFor="let post of posts; let i = index" class="shadow-lg p-3 mb-5 bg-white rounded">
 <mat-card class="example-card">
   <mat-card-header>
     <div mat-card-avatar>
       <img class="avatar" src="{{post.avatar}}" alt="{{post.title}}">
     </div>
-    <mat-card-title>{{post.name}}</mat-card-title>
+    <mat-card-title>{{post.creatorName}}</mat-card-title>
     <mat-card-subtitle>{{post.title}}</mat-card-subtitle>
   </mat-card-header>
   <img mat-card-image src={{post.imagePath}} alt="Photo of a Shiba Inu">
@@ -82,15 +41,15 @@
   <mat-card-actions>
     <!-- *ngIf="userIsAuthenticated && userId===post.user" -->
 
-    <a class="fa fa-thumbs-up" color="primary" (click)="onLike(post.id)"
+    <a class="fa fa-thumbs-up like" color="primary"  (click)="onLike(post._id,i)"
       >Like {{post.likes.length}}</a>
-      
-    <a mat-button color="primary" [routerLink]="['/edit',post.id]"
+
+    <a mat-button color="primary" *ngIf="userId==post.creator" [routerLink]="['/edit',post._id]"
     >edit  </a>
-    <a mat-button color="primary" (click)="onunlike(post.id)"
+    <a mat-button color="primary" *ngIf="likeCheck(post.likes,userId)" (click)="onunlike(post._id)"
       > Unlike Post</a>
 
-    <button class="fa fa-trash" color="warn" (click)="onDelete(post.id)"
+    <button class="fa fa-trash like" *ngIf="userId==post.creator" color="warn" (click)="onDelete(post._id)"
       >Delete</button>
 
     <!-- <button class="fa fa-thumbs-up">{{post.likes.length}} Like</button>
@@ -98,6 +57,6 @@
     <button mat-button></button>
     <button class="fa fa-trash"></button> -->
   </mat-card-actions>
-</mat-card> 
+</mat-card>
 </div>
 </div>

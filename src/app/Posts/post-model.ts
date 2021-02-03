@@ -5,4 +5,6 @@ export interface Post{
     imagePath:String;
     user:String;
     name:String;
+    likes:Array<Number>;
+    avatar:String;
 }

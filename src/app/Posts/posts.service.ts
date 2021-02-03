@@ -21,13 +21,13 @@ export class PostsService{
     {
         const queryParams=`?pagesize=${postPerPage}&page=${currentPage}`;
         this.http
-        .get<{message:string,posts:any,maxPosts:number}>(
+        .get<any>(
             BACKEND_URL+"getAllPosts"+queryParams
             )
         .pipe(map((postData)=>{
             return {posts: postData.posts.map(post=>{
             // console.log(post)
-                
+
                 return{
                     title:post.title,
                     content:post.content,
@@ -46,7 +46,7 @@ export class PostsService{
         }))
         .subscribe((modifiedPostData)=>{
             console.log(modifiedPostData);
-            
+
             this.posts=modifiedPostData.posts;
             this.postsUpdated.next({
                 posts:[...this.posts],
@@ -57,16 +57,9 @@ export class PostsService{
 
     getPost(id:string){
         console.log('fetching from post db');
+        // return this.get<any>(BACKEND_URL+id);
         return this.http.get
-        <{
-            _id:string,
-             title:string,
-             content:string,
-             imagePath:string,
-             user:string,
-             name:string
-         }>
-        (BACKEND_URL+id);
+        <any>(BACKEND_URL+id);
     }
 
     getPostUpdateListener(){
@@ -87,7 +80,7 @@ export class PostsService{
     }
 
     updatePost(id:string,title:string,content:string,image:File | string){
-        let postData: Post | FormData;
+        let postData: any | Post | FormData;
         if(typeof(image)==='object'){
             postData=new FormData();
             postData.append("id",id);
@@ -97,21 +90,21 @@ export class PostsService{
 
         }else{
             postData={
-                id:id, 
+                id:id,
                 title:title,
                 content:content,
                 imagePath:image,
                 user:null,
                 name:null
             };
-        }        
+        }
         this.http.put(BACKEND_URL+"updatePost/"+id,postData)
         .subscribe(response => {
             console.log("Updating in progress....");
             this.router.navigate(["/"]);
         });
     }
- 
+
     deletePost(id:string){
          return this.http.delete(BACKEND_URL+"deletePost/"+id)
     }
@@ -122,7 +115,7 @@ export class PostsService{
 
    unlikePost(id:string){
     return this.http.put(BACKEND_URL+"unlike/"+id,id)
-    }    
+    }
 
     comment(id:string,text:string){
         const comment ={

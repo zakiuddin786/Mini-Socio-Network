@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
 })
 export class CreatePostComponent implements OnInit, OnDestroy{
 
-    post:Post;
+    post:any;
     isLoading=false;
     private mode = "create";
     private postId:string;
@@ -26,7 +26,7 @@ export class CreatePostComponent implements OnInit, OnDestroy{
          public route : ActivatedRoute,
          private authService : AuthService
          ){}
-    
+
     ngOnInit(){
         this.authStatusSub=this.authService.getAuthStatusListener()
         .subscribe(
@@ -47,7 +47,7 @@ export class CreatePostComponent implements OnInit, OnDestroy{
         });
     this.route.paramMap.subscribe((paramMap:ParamMap)=>{
         if(paramMap.has('postId')){
-        
+
             this.mode="edit";
             this.postId=paramMap.get('postId');
             this.isLoading=true;
@@ -62,7 +62,7 @@ export class CreatePostComponent implements OnInit, OnDestroy{
                 name:postData.name
             };
                 this.form.setValue({
-                   'title':this.post.title,
+                    'title':this.post.title,
                     'content':this.post.content,
                     image:this.post.imagePath
                 });
@@ -74,7 +74,7 @@ export class CreatePostComponent implements OnInit, OnDestroy{
         }
     });
     }
-    
+
     onImagePicked(event:Event)
     {
         const file =(event.target as HTMLInputElement).files[0];

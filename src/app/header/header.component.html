@@ -3,6 +3,7 @@
         <a routerLink="/">Socio Network</a>
     </span>
     <span class="spacing"></span>
+
     <ul>
         <li *ngIf="userIsAuthenticated">
         <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>
@@ -17,4 +18,4 @@
             <button mat-button (click)="onLogout()">Logout</button>
         </li>
     </ul>
-</mat-toolbar> 
+</mat-toolbar>

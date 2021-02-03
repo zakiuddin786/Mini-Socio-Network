@@ -48,10 +48,14 @@ mat-paginator{
 .example-card {
     max-width: 400px;
   }
-  
+
   .example-header-image {
     /* background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg'); */
     background-size: cover;
+  }
+
+  .like{
+    cursor: pointer;
   }
 
   .avatar{
@@ -71,7 +75,7 @@ mat-paginator{
   }
 
   .container{
+    display: grid;
       justify-content: center;
       align-items: center;
   }
-  
