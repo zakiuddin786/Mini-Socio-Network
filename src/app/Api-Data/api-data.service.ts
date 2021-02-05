@@ -7,7 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 
 export class ApiDataService {
-  url = '';
+  url = 'https://miniprojectbackend.azurewebsites.net';
 
   constructor(private http: HttpClient) {
     if (isDevMode()) {
