@@ -13,13 +13,12 @@ export class ApiDataService {
     if (isDevMode()) {
       this.url = "http://localhost:3000";
     }
-    else
-    this.url = "https://miniprojectbackend.azurewebsites.net"
   }
 
 
   getData(route) {
     const token = localStorage.getItem('token');
+    console.log("getting")
     const headers = new HttpHeaders({
         token
     });

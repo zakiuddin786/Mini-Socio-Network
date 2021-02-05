@@ -41,12 +41,21 @@ mat-paginator{
     padding: 16px;
 }
 
+.search-bar{
+  max-width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 .post-image img{
     width:100%;
     box-shadow:2px 3px 5px rgba(0,0,0,0.5);
 }
 .example-card {
-    max-width: 400px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+    max-width: 800px;
   }
 
   .example-header-image {
@@ -57,6 +66,7 @@ mat-paginator{
   .like{
     cursor: pointer;
   }
+
 
   .avatar{
       background-size: cover;

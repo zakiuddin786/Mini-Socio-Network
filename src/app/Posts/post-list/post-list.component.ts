@@ -11,6 +11,7 @@ import { Subject, Subscription } from 'rxjs';
 import { ApiDataService } from 'src/app/Api-Data/api-data.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
+import { Router } from '@angular/router';
 @Component({
     selector:"app-post-list",
     templateUrl:"./post-list.component.html",
@@ -108,9 +109,12 @@ export class PostListComponent implements OnInit, OnDestroy{
     {
        this.isLoading=true;
       this.searchByPostDescription();
-
-
        this.userIsAuthenticated=this.authService.isAuth();
+       if(!this.userIsAuthenticated){
+         this.isLoading=false;
+         console.log("not logged in");
+        
+       }
        this.userId=this.authService.getUserId();
        console.log(this.userId," Checking ")
 
@@ -119,7 +123,6 @@ export class PostListComponent implements OnInit, OnDestroy{
        .subscribe(isAuthenticated=>{
            this.userIsAuthenticated=isAuthenticated;
            this.userId=this.authService.getUserId();
-
        });
 
        this.dataService.getData("/posts/getAllPosts").subscribe(data=>{
