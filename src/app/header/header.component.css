@@ -1,4 +1,4 @@
- 
+
  ul{
      list-style: none;
      padding:0;
@@ -14,3 +14,15 @@ a{
 .spacing{
     flex:1 1 auto;
 }
+
+.button, button{
+  border-radius: 1.59rem!important;
+  padding-left: 1.6rem!important;
+  padding-right: 1.6rem!important;
+}
+
+button:hover, .button:hover{
+  background-color: #1533da;
+}
+
+

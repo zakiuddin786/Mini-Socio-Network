@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
     templateUrl:'./login.component.html',
@@ -19,7 +20,7 @@ export class LoginComponent{
             }
         );
     }
-    constructor(public authService:AuthService){}
+    constructor(public authService:AuthService, private toster: ToastrService){}
 
     onLogin(form: NgForm){
         if(form.invalid){
@@ -27,6 +28,7 @@ export class LoginComponent{
             return;
         }
         this.isLoading=true;
+
         this.authService.login(form.value.email,form.value.password);
         // console.log(form.value);
     }

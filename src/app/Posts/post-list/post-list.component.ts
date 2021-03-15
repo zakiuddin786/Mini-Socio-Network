@@ -12,11 +12,17 @@ import { ApiDataService } from 'src/app/Api-Data/api-data.service';
 import { Observable } from 'rxjs';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Component({
     selector:"app-post-list",
     templateUrl:"./post-list.component.html",
     styleUrls:["./post-list.component.css"]
 })
+
+// this.toster.success("Login Success",'',{timeOut:2000});
+
+
+
 export class PostListComponent implements OnInit, OnDestroy{
 
     posts:any;
@@ -35,7 +41,7 @@ export class PostListComponent implements OnInit, OnDestroy{
     userIsAuthenticated=false;
 
     constructor(public postService: PostsService ,private authService:AuthService,
-      private dataService:ApiDataService){
+      private dataService:ApiDataService, private toster: ToastrService){
         this.SearchBarForm = new FormGroup({
           searchPost: new FormControl(""),
         })
@@ -118,7 +124,7 @@ export class PostListComponent implements OnInit, OnDestroy{
        }
 
         this.loggedIn = true;
-        
+
        this.userId=this.authService.getUserId();
        console.log(this.userId," Checking ")
 
@@ -146,6 +152,15 @@ export class PostListComponent implements OnInit, OnDestroy{
 
     onDelete(postId:string)
     {
+
+      var r = confirm("Are You Sure You want to delete this!!");
+    if (r == true) {
+
+    } else {
+      return;
+    }
+
+
         this.isLoading=true;
         // return this.http.delete(BACKEND_URL+"deletePost/"+id)
         this.dataService.deleteData(`/posts/deletePost/${postId}`).subscribe(data=>{
@@ -155,6 +170,8 @@ export class PostListComponent implements OnInit, OnDestroy{
             this.isLoading=false;
             // console.log("from inti",data);
           })
+
+          alert("post deleted successfully");
 
         },err=>{
           console.log(err);

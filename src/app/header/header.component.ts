@@ -13,10 +13,17 @@ export class HeaderComponent implements OnInit,OnDestroy{
     userIsAuthenticated =false;
     private authListenerSubs : Subscription;
     SearchBarForm : FormGroup;
+    userName : any;
     constructor(private authService: AuthService, private dataService: ApiDataService){
        this.SearchBarForm = new FormGroup({
          SearchWord : new FormControl('')
        })
+
+       if(this.userIsAuthenticated){
+        this.userName = this.authService.getName();
+
+        console.log("user is ",this.userName);
+      }
     }
 
   public descriptionSearched = new Subject<string>();
@@ -29,6 +36,12 @@ export class HeaderComponent implements OnInit,OnDestroy{
     .subscribe(isAuthenticated=>{
         this.userIsAuthenticated=isAuthenticated;
     });
+
+    if(this.userIsAuthenticated){
+      this.userName = this.authService.getName();
+
+      console.log("user is ",this.userName);
+    }
     }
 
     onLogout(){

@@ -15,6 +15,7 @@ import { PostModule } from './Posts/posts.module';
 import { AuthModule } from './auth/auth.module';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ToastrModule } from 'ngx-toastr';
 
 
 @NgModule({
@@ -33,6 +34,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     HttpClientModule,
     RouterModule,
     ReactiveFormsModule,
+    ToastrModule.forRoot()
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS,useClass:AuthInterceptor,multi:true,},
