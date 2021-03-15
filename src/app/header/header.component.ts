@@ -45,6 +45,12 @@ export class HeaderComponent implements OnInit,OnDestroy{
     }
 
     onLogout(){
+      var r = confirm("Are you Sure You Want to Logout ??");
+    if (r == true) {
+
+    } else {
+      return;
+    }
         this.authService.logout();
     }
 
