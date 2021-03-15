@@ -1,0 +1,19 @@
+What is an orphan process? Write a program to illustrate orphan process
+Illustrate pipes? Explain their limitations. Explain how pipes are created and used in IPC with an  examples.
+Write a program and explain how to transfer a large amount of data between two processes using message queues.
+Explain with a program how to copy file data from server to client using System V IPC mechanism shared memory.
+Explain briefly about the following socket APIs with clear syntax:
+a) accept( ) b) connect( )
+Describe various APIs of Message queues that are used for inter process communication.
+a. What is a signal? How can it be generated? Also explain kernel’s action on signal.
+ b. Differentiate between reliable signals and unreliable signals.
+a. What are process identifiers? Mention the commands for getting different IDs of calling process
+ b. Write a program that demonstrates the use of exit( )
+Explain briefly about the following socket APIs with clear syntax:
+a. i) socket( ) ii) bind( ) iii) listen( ) iv) accept( ) v) connect( )
+b. Compare various IPC mechanisms.
+Explain briefly about the following socket APIs with clear syntax:  i).bind( ) ii) listen( )
+Explain in brief the kernel support for process
+Write short notes on a). zombie process b).orphan process
+Explain the concept of semaphore and shared memory?
+Explain the concept of Linux system calls for connection –oriented and Connectionless protocol?

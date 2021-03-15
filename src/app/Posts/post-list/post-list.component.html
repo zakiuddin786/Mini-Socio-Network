@@ -5,11 +5,7 @@
 
 <form  [formGroup]="SearchBarForm" (ngSubmit)="onSubmit()">
 
-  <!-- <div class="row" *ngIf="!userIsAuthenticated">
-      <p>
-        Please Login to View Content
-      </p>
-  </div> -->
+
 
   <div class="row  search-bar">
     <div class="col-sm-10 mt-3">
@@ -27,7 +23,13 @@
   </div>
 </form>
 
-<div class="container ">
+<div class=" info" *ngIf="!userIsAuthenticated">
+  <p>
+    Please Login to View Content
+  </p>
+</div>
+
+<div class="container " *ngIf = "userIsAuthenticated">
 <div *ngFor="let post of posts; let i = index" class="shadow-lg p-3 mb-5 bg-white rounded">
 <mat-card class="example-card">
   <mat-card-header>

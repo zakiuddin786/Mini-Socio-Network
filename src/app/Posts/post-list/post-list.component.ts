@@ -26,6 +26,7 @@ export class PostListComponent implements OnInit, OnDestroy{
     postsPerPage=10;
     currentPage=1;
     userId:string;
+    loggedIn = false;
     SearchBarForm : FormGroup;
     errorMessage:any;
 
@@ -113,8 +114,11 @@ export class PostListComponent implements OnInit, OnDestroy{
        if(!this.userIsAuthenticated){
          this.isLoading=false;
          console.log("not logged in");
-        
+          return;
        }
+
+        this.loggedIn = true;
+        
        this.userId=this.authService.getUserId();
        console.log(this.userId," Checking ")
 

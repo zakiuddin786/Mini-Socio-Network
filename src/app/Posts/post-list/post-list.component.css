@@ -89,3 +89,10 @@ mat-paginator{
       justify-content: center;
       align-items: center;
   }
+
+  .info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e90d0d;
+  }
