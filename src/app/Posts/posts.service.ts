@@ -59,7 +59,7 @@ export class PostsService{
         console.log('fetching from post db');
         // return this.get<any>(BACKEND_URL+id);
         return this.http.get
-        <any>(BACKEND_URL+id);
+        <any>(BACKEND_URL+"getPost/"+id);
     }
 
     getPostUpdateListener(){
